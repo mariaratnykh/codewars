@@ -1,0 +1,52 @@
+https://www.codewars.com/kata/reviews/534e4b2eb5eccbd45c000254/groups/5cea441d25388100010cd094
+
+Description:
+Your task, is to create a NxN spiral with a given size.
+
+For example, spiral with size 5 should look like this:
+
+00000
+....0
+000.0
+0...0
+00000
+
+Return value should contain array of arrays, of 0 and 1, for example for given size 5 result should be:
+
+[[1,1,1,1,1],[0,0,0,0,1],[1,1,1,0,1],[1,0,0,0,1],[1,1,1,1,1]]
+Because of the edge-cases for tiny spirals, the size will be at least 5.
+
+General rule-of-a-thumb is, that the snake made with '1' cannot touch to itself.
+
+SOLUTION
+
+var spiralize = function(size) {
+  if(size === 1) return [1];
+  let spiral = createMatrix(size);
+  
+  let number = 1;
+  for(let i = 0; i < Math.ceil(size/2); i++) {
+    spiral = makeBorder(i, number, spiral);
+    number = +!number;
+  }
+  return spiral
+}
+
+function createMatrix(len) {
+  let matrix = Array(len);
+  for(let i = 0; i < len; i++) {
+    matrix[i] = new Array(len);
+  }
+  return matrix;
+}
+
+function makeBorder(i, number, arr) {
+  for(let a = i; a < arr.length - i; a++) {
+    arr[i][a] = number;
+    arr[arr.length - 1 - i][a] = number;
+    arr[a][i] = number;
+    arr[a][arr.length - 1 - i] = number;
+  }
+  arr[i+1][i] = +!number;
+  return arr;
+}
